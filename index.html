@@ -1,20 +1,113 @@
-<ul>
-  <li>X22 - <a href="https://x22report.com" target="_blank">Website</a> | <a href="https://www.bitchute.com/channel/n78PbEkvWx2g" target="_blank">Bitchute</a></li>
-  <li>IPOT - <a href="https://www.bitchute.com/channel/Xe2ztraIRXRX" target="_blank">Bitchute</a></li>
-  <li>Redpill78 - <a href="https://www.bitchute.com/channel/ckAsk0HlOn5w" target="_blank">Bitchute</a></li>
-  <li>PrayingMedic - <a href="https://www.bitchute.com/channel/FJLej1ou6JVe" target="_blank">Bitchute</a></li>
-  <li>Joe M - <a href="https://gab.com/StormIsUponUs" target="_blank">Gab</a></li>
-  <li>Edge of Wonder - <a href="https://edgeofwonder.tv" target="_blank">Website</a></li>
-  <li>SGT Report - <a href="https://sgtreport.tv" target="_blank">Website</a></li>
-  <li>Spaceshot76 - <a href="https://www.youtube.com/channel/UCxBRXoY4uqpHwmm7DVIePIQ" target="_blank">Youtube</a></li>
-  <li>WokeSocieties - <a href="https://wokesocieties.com" target="_blank">Website</a></li>
-  <li>Amazing Polly - <a href="https://www.bitchute.com/channel/ZofFQQoDoqYT" target="_blank">Bitchute</a></li>
-  <li>Truth &amp; Art TV - <a href="http://truthandarttv.com" target="_blank">Website</a></li>
-  <li>PatriotsSoapbox - <a href="https://www.bitchute.com/channel/wnKzAtP4CGk4" target="_blank">Bitchute</a></li>
-  <li>Dustin Nemos - <a href="https://www.bitchute.com/channel/dustinnemos" target="_blank">Bitchute</a></li>
-  <li>InTheMatrixxx - <a href="https://inthematrixxx.com" target="_blank">Website</a></li>
-  <li>AndWeKnow - <a href="https://www.andweknow.com" target="_blank">Website</a> | <a href="https://www.bitchute.com/channel/1uDxpDogKMs9" target="_blank">Bitchute</a></li>
-  <li>Stroppy Me - <a href="https://www.bitchute.com/channel/M4YtazGIdcIH" target="_blank">Bitchute</a></li>
-  <li>Justinformed Talk - <a href="https://www.bitchute.com/channel/zWqrqKTLkhqW" target="_blank">Bitchute</a></li>
-  <li>Sarah Westall - <a href="https://www.bitchute.com/channel/1Ez5eVnVz1yY" target="_blank">Bitchute</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Patriot News</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app>
+      <v-app-bar app>
+        <v-toolbar-items>
+          <v-btn text class="home-btn headline text-uppercase" :ripple="false">
+            <span>{{title}}</span>
+          </v-btn>
+          <v-divider vertical></v-divider>
+        </v-toolbar-items>
+      </v-app-bar>
+      <v-main>
+        <v-container>
+          <v-row>
+            <v-col cols="8" class="mx-auto">
+              <v-card>
+                <v-card-text>
+                  <v-list>
+                    <v-list-item v-for="item in items" :key="item.id">
+                      <v-list-item-title>{{item.name}}</v-list-item-title>
+                      <v-container fluid class="pa-0">
+                        <v-btn v-if="item.site" target="_blank" :href="`http://${item.site}`">Website</v-btn>
+                        <v-btn v-if="item.chute" target="_blank" :href="`https://bitchute.com/channel/${item.chute}`">
+                          Bitchute
+                        </v-btn>
+                        <v-btn v-if="item.gab" target="_blank" :href="`https://gab.com/${item.gab}`">
+                          Gab
+                        </v-btn>
+                        <v-btn v-if="item.yt" target="_blank" :href="`https://www.youtube.com/channel/${item.yt}`">
+                          Youtube
+                        </v-btn>
+                      </v-container>
+                    </v-list-item>
+                  </v-list>
+                </v-card-text>
+                <v-card-actions v-if="false">
+                  <v-btn text color="deep-purple accent-4">
+                    Read
+                  </v-btn>
+                  <v-btn text color="deep-purple accent-4">
+                    Bookmark
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn icon>
+                    <v-icon>mdi-heart</v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon>mdi-share-variant</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-main>
+      <v-footer app>
+        <v-spacer></v-spacer>
+        <div>&copy;&nbsp;{{ new Date().getFullYear() }}&nbsp;—&nbsp;<strong>{{title}}</strong></div>
+        <v-spacer></v-spacer>
+      </v-footer>
+    </v-app>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <!-- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    const log = console.log.bind(console)
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: () => ({
+        title: 'Patriot News',
+        items: [
+          { name: 'Fox News', site: 'topnewsshow.com/category/fox-news' },
+          { name: 'X22 Report', site: 'x22report.com', chute: 'n78PbEkvWx2g' },
+          { name: 'IPOT', chute: 'Xe2ztraIRXRX', gab: 'IPOT' },
+          { name: 'Redpill78', chute: 'ckAsk0HlOn5w', gab: '' },
+          { name: 'PrayingMedic', chute: 'FJLej1ou6JVe' },
+          { name: 'Joe M', gab: 'StormIsUponUs' },
+          { name: 'Edge of Wonder', site: 'edgeofwonder.tv' },
+          { name: 'SGT Report', site: 'sgtreport.tv' },
+          { name: 'Spaceshot76', yt: 'UCxBRXoY4uqpHwmm7DVIePIQ' },
+          { name: 'WokeSocieties', site: 'wokesocieties.com' },
+          { name: 'Amazing Polly', site: '', chute: 'ZofFQQoDoqYT' },
+          { name: 'Truth & Art TV', site: 'truthandarttv.com' },
+          { name: 'PatriotsSoapbox', chute: 'wnKzAtP4CGk4' },
+
+          { name: 'Dustin Nemos', chute: 'dustinnemos' },
+          { name: 'InTheMatrixxx', site: 'inthematrixxx.com' },
+          { name: 'AndWeKnow', site: 'andweknow.com', chute: '1uDxpDogKMs9' },
+          { name: 'Stroppy Me', chute: 'M4YtazGIdcIH' },
+          { name: 'Justinformed Talk', chute: 'zWqrqKTLkhqW' },
+          { name: 'Sarah Westall', chute: '1Ez5eVnVz1yY' },
+        ],
+      }),
+      created () {
+        this.$vuetify.theme.dark = true
+      },
+      methods: {
+      },
+    })
+  </script>
+</body>
+</html>
