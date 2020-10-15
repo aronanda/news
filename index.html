@@ -6,106 +6,122 @@
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <style>
+    .home-btn {
+      text-transform: none !important;
+    }
+    .home-btn:before, .home-btn:hover:before {
+      background: none !important;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
     <v-app>
-      <v-app-bar app>
+      <v-app-bar app absolute>
         <v-toolbar-items>
-          <v-btn text class="home-btn headline text-uppercase" :ripple="false">
+          <v-btn text to="/" class="home-btn headline text-uppercase" :ripple="false">
             <span>{{title}}</span>
           </v-btn>
-          <v-divider vertical></v-divider>
+        </v-toolbar-items>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <template v-for="item in menu">
+            <v-divider vertical></v-divider>
+            <v-btn :key = item.id :to="'/' + item.path" text>{{ item.title }}</v-btn>
+          </template>
         </v-toolbar-items>
       </v-app-bar>
       <v-main>
         <v-container>
           <v-row>
-            <v-col cols="8" class="mx-auto">
+            <v-col sm="12" md="10" lg="8" class="mx-auto">
               <v-card>
                 <v-card-text>
-                  <v-list>
-                    <v-list-item v-for="item in items" :key="item.id">
-                      <v-list-item-title>{{item.name}}</v-list-item-title>
-                      <v-container fluid class="pa-0">
-                        <v-btn v-if="item.site" target="_blank" :href="`http://${item.site}`">Website</v-btn>
-                        <v-btn v-if="item.chute" target="_blank" :href="`https://bitchute.com/channel/${item.chute}`">
-                          Bitchute
-                        </v-btn>
-                        <v-btn v-if="item.gab" target="_blank" :href="`https://gab.com/${item.gab}`">
-                          Gab
-                        </v-btn>
-                        <v-btn v-if="item.yt" target="_blank" :href="`https://www.youtube.com/channel/${item.yt}`">
-                          Youtube
-                        </v-btn>
-                      </v-container>
-                    </v-list-item>
-                  </v-list>
+                  <router-view></router-view>
                 </v-card-text>
-                <v-card-actions v-if="false">
-                  <v-btn text color="deep-purple accent-4">
-                    Read
-                  </v-btn>
-                  <v-btn text color="deep-purple accent-4">
-                    Bookmark
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn icon>
-                    <v-icon>mdi-heart</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon>mdi-share-variant</v-icon>
-                  </v-btn>
-                </v-card-actions>
               </v-card>
             </v-col>
           </v-row>
         </v-container>
       </v-main>
-      <v-footer app>
+      <v-footer app absolute>
         <v-spacer></v-spacer>
-        <div>&copy;&nbsp;{{ new Date().getFullYear() }}&nbsp;—&nbsp;<strong>{{title}}</strong></div>
+        <div>Q&nbsp;{{ new Date().getFullYear() }}&nbsp;—&nbsp;<strong>{{title}}</strong></div>
         <v-spacer></v-spacer>
       </v-footer>
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-  <!-- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script>
-    const log = console.log.bind(console)
     new Vue({
       el: '#app',
+      router: new VueRouter({
+        routes: [
+          { path: '/', component: {
+            template: `
+              <v-list>
+                <v-list-item v-for="item in items" :key="item.id">
+                  <v-list-item-title>{{item.name}}</v-list-item-title>
+                  <v-container fluid class="pa-0">
+                    <v-btn v-if="item.site" target="_blank" :href="'http://' + item.site">Website</v-btn>
+                    <v-btn v-if="item.chute" target="_blank" :href="'https://bitchute.com/channel/' + item.chute">
+                      Bitchute
+                    </v-btn>
+                    <v-btn v-if="item.gab" target="_blank" :href="'https://gab.com/' + item.gab">
+                      Gab
+                    </v-btn>
+                    <v-btn v-if="item.yt" target="_blank" :href="'https://www.youtube.com/channel/' + item.yt">
+                      Youtube
+                    </v-btn>
+                  </v-container>
+                </v-list-item>
+              </v-list>
+            `,
+            data: () => ({
+              items: [
+                { name: 'Fox News', site: 'topnewsshow.com/category/fox-news' },
+                { name: 'X22 Report', site: 'x22report.com', chute: 'n78PbEkvWx2g' },
+                { name: 'IPOT', chute: 'Xe2ztraIRXRX', gab: 'IPOT' },
+                { name: 'Redpill78', chute: 'ckAsk0HlOn5w', gab: '' },
+                { name: 'PrayingMedic', chute: 'FJLej1ou6JVe' },
+                { name: 'Joe M', gab: 'StormIsUponUs' },
+                { name: 'Edge of Wonder', site: 'edgeofwonder.tv' },
+                { name: 'SGT Report', site: 'sgtreport.tv' },
+                { name: 'Spaceshot76', yt: 'UCxBRXoY4uqpHwmm7DVIePIQ' },
+                { name: 'WokeSocieties', site: 'wokesocieties.com' },
+                { name: 'Amazing Polly', site: '', chute: 'ZofFQQoDoqYT' },
+                { name: 'Truth & Art TV', site: 'truthandarttv.com' },
+                { name: 'PatriotsSoapbox', chute: 'wnKzAtP4CGk4' },
+                { name: 'Dustin Nemos', chute: 'dustinnemos' },
+                { name: 'InTheMatrixxx', site: 'inthematrixxx.com' },
+                { name: 'AndWeKnow', site: 'andweknow.com', chute: '1uDxpDogKMs9' },
+                { name: 'Stroppy Me', chute: 'M4YtazGIdcIH' },
+                { name: 'Justinformed Talk', chute: 'zWqrqKTLkhqW' },
+                { name: 'Sarah Westall', chute: '1Ez5eVnVz1yY' },
+              ],
+            }),
+          }},
+          { path: '/foo', component: {
+            template: `<div class="title">Foo</div>`
+          }},
+          { path: '/bar', component: {
+            template: `<div class="title">Bar</div>`
+          }},
+        ],
+      }),
       vuetify: new Vuetify(),
       data: () => ({
         title: 'Patriot News',
-        items: [
-          { name: 'Fox News', site: 'topnewsshow.com/category/fox-news' },
-          { name: 'X22 Report', site: 'x22report.com', chute: 'n78PbEkvWx2g' },
-          { name: 'IPOT', chute: 'Xe2ztraIRXRX', gab: 'IPOT' },
-          { name: 'Redpill78', chute: 'ckAsk0HlOn5w', gab: '' },
-          { name: 'PrayingMedic', chute: 'FJLej1ou6JVe' },
-          { name: 'Joe M', gab: 'StormIsUponUs' },
-          { name: 'Edge of Wonder', site: 'edgeofwonder.tv' },
-          { name: 'SGT Report', site: 'sgtreport.tv' },
-          { name: 'Spaceshot76', yt: 'UCxBRXoY4uqpHwmm7DVIePIQ' },
-          { name: 'WokeSocieties', site: 'wokesocieties.com' },
-          { name: 'Amazing Polly', site: '', chute: 'ZofFQQoDoqYT' },
-          { name: 'Truth & Art TV', site: 'truthandarttv.com' },
-          { name: 'PatriotsSoapbox', chute: 'wnKzAtP4CGk4' },
-
-          { name: 'Dustin Nemos', chute: 'dustinnemos' },
-          { name: 'InTheMatrixxx', site: 'inthematrixxx.com' },
-          { name: 'AndWeKnow', site: 'andweknow.com', chute: '1uDxpDogKMs9' },
-          { name: 'Stroppy Me', chute: 'M4YtazGIdcIH' },
-          { name: 'Justinformed Talk', chute: 'zWqrqKTLkhqW' },
-          { name: 'Sarah Westall', chute: '1Ez5eVnVz1yY' },
+        menu: [
+          { title: 'Foo', path: 'foo' },
+          { title: 'Bar', path: 'bar' },
         ],
       }),
       created () {
         this.$vuetify.theme.dark = true
-      },
-      methods: {
       },
     })
   </script>
