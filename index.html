@@ -78,10 +78,10 @@
                       color="blue"
                       class="mr-2"
                       tile
-                      :href="getLink('chute', item.chute)"
+                      :href="getLink('site', item.site)"
                       >
-                      <v-icon left>mdi-web</v-icon>
-                      Website
+                      <v-icon left>mdi-video</v-icon>
+                      Bitchute
                     </v-btn>
                     <v-btn 
                       v-if="item.chute" 
@@ -89,10 +89,10 @@
                       color="amber darken-2"
                       class="mr-2"
                       tile
-                      :href="getLink('site', item.site)"
+                      :href="getLink('chute', item.chute)"
                       >
-                      <v-icon left>mdi-video</v-icon>
-                      Bitchute
+                      <v-icon left>mdi-web</v-icon>
+                      Website
                     </v-btn>
                     <v-btn 
                       v-if="item.gab" 
