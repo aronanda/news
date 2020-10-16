@@ -63,17 +63,54 @@
           { path: '/', component: {
             template: `
               <v-list>
-                <v-list-item v-for="item in items" :key="item.id">
+                <v-list-item v-for="item in items" :key="item.id"
+                  ripple
+                  @click="onClick(item)"
+                  >
                   <v-list-item-title>{{item.name}}</v-list-item-title>
                   <v-container fluid class="pa-0">
-                    <v-btn v-if="item.site" target="_blank" :href="'http://' + item.site">Website</v-btn>
-                    <v-btn v-if="item.chute" target="_blank" :href="'https://bitchute.com/channel/' + item.chute">
+                    <v-btn 
+                      v-if="item.site" 
+                      target="_blank" 
+                      color="blue"
+                      class="mr-2"
+                      tile
+                      :href="getLink('chute', item.chute)"
+                      >
+                      <v-icon left>mdi-web</v-icon>
+                      Website
+                    </v-btn>
+                    <v-btn 
+                      v-if="item.chute" 
+                      target="_blank" 
+                      color="amber darken-2"
+                      class="mr-2"
+                      tile
+                      :href="getLink('site', item.site)"
+                      >
+                      <v-icon left>mdi-video</v-icon>
                       Bitchute
                     </v-btn>
-                    <v-btn v-if="item.gab" target="_blank" :href="'https://gab.com/' + item.gab">
+                    <v-btn 
+                      v-if="item.gab" 
+                      target="_blank" 
+                      color="green"
+                      class="mr-2"
+                      tile
+                      :href="getLink('gab', item.gab)"
+                      >
+                      <v-icon left>mdi-message</v-icon>
                       Gab
                     </v-btn>
-                    <v-btn v-if="item.yt" target="_blank" :href="'https://www.youtube.com/channel/' + item.yt">
+                    <v-btn 
+                      v-if="item.yt" 
+                      target="_blank" 
+                      color="red"
+                      class="mr-2"
+                      tile
+                      :href="getLink('yt', item.yt)"
+                      >
+                      <v-icon left>mdi-youtube</v-icon>
                       Youtube
                     </v-btn>
                   </v-container>
@@ -103,6 +140,28 @@
                 { name: 'Sarah Westall', chute: '1Ez5eVnVz1yY' },
               ],
             }),
+            methods: {
+              onClick (item) {
+                if (item.chute)
+                  window.open(this.getLink('chute', item.chute))
+                else if (item.site)
+                  window.open(this.getLink('site', item.site))
+                else if (item.gab)
+                  window.open(this.getLink('gab', item.gab))
+                else if (item.yt)
+                  window.open(this.getLink('yt', item.yt))
+              },
+              getLink (type, slug) {
+                if (type === 'chute')
+                  return 'https://bitchute.com/channel/' + slug
+                if (type === 'site')
+                  return 'http://' + slug
+                if (type === 'gab')
+                  return 'https://gab.com/' + slug
+                if (type === 'yt')
+                  return 'https://www.youtube.com/channel/' + slug
+              },
+            },
           }},
           { path: '/foo', component: {
             template: `<div class="title">Foo</div>`
@@ -116,8 +175,8 @@
       data: () => ({
         title: 'Patriot News',
         menu: [
-          { title: 'Foo', path: 'foo' },
-          { title: 'Bar', path: 'bar' },
+          // { title: 'Foo', path: 'foo' },
+          // { title: 'Bar', path: 'bar' },
         ],
       }),
       created () {
