@@ -79,9 +79,10 @@
                       class="mr-2"
                       tile
                       :href="getLink('site', item.site)"
+                      :icon="$vuetify.breakpoint.smAndDown"
                       >
-                      <v-icon left>mdi-web</v-icon>
-                      Website
+                      <v-icon :left="!$vuetify.breakpoint.smAndDown">mdi-web</v-icon>
+                      <span v-if="!$vuetify.breakpoint.smAndDown">Website</span>
                     </v-btn>
                     <v-btn 
                       v-if="item.chute" 
@@ -90,9 +91,10 @@
                       class="mr-2"
                       tile
                       :href="getLink('chute', item.chute)"
+                      :icon="$vuetify.breakpoint.smAndDown"
                       >
-                      <v-icon left>mdi-video</v-icon>
-                      Bitchute
+                      <v-icon :left="!$vuetify.breakpoint.smAndDown">mdi-video</v-icon>
+                      <span v-if="!$vuetify.breakpoint.smAndDown">Bitchute</span>
                     </v-btn>
                     <v-btn 
                       v-if="item.gab" 
@@ -101,9 +103,10 @@
                       class="mr-2"
                       tile
                       :href="getLink('gab', item.gab)"
+                      :icon="$vuetify.breakpoint.smAndDown"
                       >
-                      <v-icon left>mdi-message</v-icon>
-                      Gab
+                      <v-icon :left="!$vuetify.breakpoint.smAndDown">mdi-message</v-icon>
+                      <span v-if="!$vuetify.breakpoint.smAndDown">Gab</span>
                     </v-btn>
                     <v-btn 
                       v-if="item.yt" 
@@ -112,9 +115,10 @@
                       class="mr-2"
                       tile
                       :href="getLink('yt', item.yt)"
+                      :icon="$vuetify.breakpoint.smAndDown"
                       >
-                      <v-icon left>mdi-youtube</v-icon>
-                      Youtube
+                      <v-icon :left="!$vuetify.breakpoint.smAndDown">mdi-youtube</v-icon>
+                      <span v-if="!$vuetify.breakpoint.smAndDown">Youtube</span>
                     </v-btn>
                   </v-container>
                 </v-list-item>
