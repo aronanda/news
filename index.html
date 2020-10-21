@@ -169,6 +169,119 @@
               },
             },
           }},
+          { path: '/obfuscate', component: {
+            template: `
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="input"
+                      label="Input"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="obfuscated"
+                      ref="obfuscated"
+                      label="Obfuscated"
+                      append-outer-icon="mdi-content-copy"
+                      @click:append-outer="onCopy"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            `,
+            data: () => ({
+              input: '',
+              table: {
+                "0": "\ud835\udff6",
+                "1": "\ud835\udff7",
+                "2": "\ud835\udff8",
+                "3": "\ud835\udff9",
+                "4": "\ud835\udffa",
+                "5": "\ud835\udffb",
+                "6": "\ud835\udffc",
+                "7": "\ud835\udffd",
+                "8": "\ud835\udffe",
+                "9": "\ud835\udfff",
+                "A": "\u0410",
+                "B": "\u0412",
+                "C": "\u0421",
+                "D": "\ud835\udda3",
+                "E": "\u0395",
+                "F": "\u03dc",
+                "G": "\u050c",
+                "H": "\u041d",
+                "I": "\u04cf",
+                "J": "\u0408",
+                "K": "\u041a",
+                "L": "\u14aa",
+                "M": "\u041c",
+                "N": "\u039d",
+                "O": "O",
+                "P": "\u0420",
+                "Q": "\ud835\ude80",
+                "R": "\ud835\uddb1",
+                "S": "\u0405",
+                "T": "\u03a4",
+                "U": "\u054d",
+                "V": "\u0474",
+                "W": "\u051c",
+                "X": "\u0425",
+                "Y": "\u0423",
+                "Z": "\u0396",
+                "a": "\u0430",
+                "b": "\u042c",
+                "c": "\u0441",
+                "d": "\u0501",
+                "e": "\u0435",
+                "f": "\u0066",
+                "g": "\u0581",
+                "h": "\u0266",
+                "i": "\u0456",
+                "j": "\u0458",
+                "k": "\ud835\ude94",
+                "l": "\ud800\udf09",
+                "m": "\ud835\uddc6",
+                "n": "\u0578",
+                "o": "\u043e",
+                "p": "\u0440",
+                "q": "\u051b",
+                "r": "\u0072",
+                "s": "\u0455",
+                "t": "\ud835\udd31",
+                "u": "\u057d",
+                "v": "\u0475",
+                "w": "\u051d",
+                "x": "\u0445",
+                "y": "\u0443",
+                "z": "\uab93"
+              },
+            }),
+            computed: {
+              obfuscated () {
+                let obfuscated = ''
+                const alpha = this.table
+                const keys = Object.keys(alpha)
+                for (const char of this.input) {
+                  if (alpha[char] === undefined) {
+                    obfuscated += char
+                  } else {
+                    obfuscated += alpha[char]
+                  }
+                }
+                return obfuscated
+              }
+            },
+            methods: {
+              onCopy () {
+                const field = this.$refs.obfuscated
+                field.$refs.input.focus()
+                field.$refs.input.select()
+                document.execCommand('copy')
+              }
+            },
+          }},
           { path: '/foo', component: {
             template: `<div class="title">Foo</div>`
           }},
@@ -181,6 +294,7 @@
       data: () => ({
         title: 'Patriot News',
         menu: [
+          { title: 'Obfuscate', path: 'obfuscate' },
           { title: 'Foo', path: 'foo' },
           { title: 'Bar', path: 'bar' },
         ],
