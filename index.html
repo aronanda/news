@@ -171,25 +171,45 @@
           }},
           { path: '/obfuscate', component: {
             template: `
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="input"
-                      label="Input"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="obfuscated"
-                      ref="obfuscated"
-                      label="Obfuscated"
-                      append-outer-icon="mdi-content-copy"
-                      @click:append-outer="onCopy"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
+              <div>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <v-textarea
+                        v-model="input"
+                        label="Input"
+                        auto-grow
+                        rows="1"
+                      ></v-textarea>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-textarea
+                        v-model="obfuscated"
+                        label="Obfuscated"
+                        ref="obfuscated"
+                        append-outer-icon="mdi-content-copy"
+                        @click:append-outer="onCopy"
+                        auto-grow
+                        rows="1"
+                      ></v-textarea>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <v-snackbar
+                  v-model="notifyActive"
+                  bottom
+                  :color="notifyColor"
+                  multi-line
+                  class="pb-6"
+                  >
+                  <span>{{notifyMessage}}</span>
+                  <template v-slot:action="{ attrs }">
+                    <v-btn v-bind="attrs" icon @click.native="notifyActive = false">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </template>
+                </v-snackbar>
+              </div>
             `,
             data: () => ({
               input: '',
@@ -257,6 +277,9 @@
                 "y": "\u0443",
                 "z": "\uab93"
               },
+              notifyActive: false,
+              notifyMessage: 'Copied to clipboard',
+              notifyColor: 'green',
             }),
             computed: {
               obfuscated () {
@@ -278,7 +301,14 @@
                 const field = this.$refs.obfuscated
                 field.$refs.input.focus()
                 field.$refs.input.select()
-                document.execCommand('copy')
+                try {
+                  document.execCommand('copy')
+                  this.notifyActive = true
+                } catch (err) {
+                  this.notifyColor = 'red'
+                  this.notifyMessage = 'Failed to copy to clipboard'
+                  this.notifyActive = true
+                }
               }
             },
           }},
