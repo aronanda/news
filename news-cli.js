@@ -15,7 +15,7 @@ function pbcopy(data) {
   proc.stdin.end()
 }
 
-async function getFoxNews(slug = 'tucker') {
+async function getFoxNews(slug) {
   const body = await miniget(foxNewsUrl).text()
   let $ = cheerio.load(body)
   let video
@@ -34,9 +34,42 @@ async function getFoxNews(slug = 'tucker') {
       category = 'the-ingraham-angle'
       break
     case 'tucker':
-    default:
       category = 'tucker-carlson-tonight'
       break
+  }
+
+  if (!category) {
+    let url
+    switch (slug) {
+      case 'x22':
+        url = 'https://bitchute.com/channel/n78PbEkvWx2g'
+        break
+      case 'ipot':
+        url = 'https://bitchute.com/channel/Xe2ztraIRXRX'
+        break
+      case 'tdv':
+        url = 'https://bitchute.com/channel/DkNYbFJKDPpX'
+        break
+      case 'storm':
+        url = 'https://bitchute.com/channel/50tnZ2hx6duU'
+        break
+      case 'tim':
+        url = 'https://youtube.com/c/Timcast/videos'
+        break
+      case 'timcast':
+        url = 'https://youtube.com/c/TimcastNews/videos'
+        break
+      case 'timcastirl':
+        url = 'https://youtube.com/c/TimcastIRL/videos'
+        break
+      case 'bcp':
+        url = 'https://www.youtube.com/c/BlackConservativePatriot/videos'
+        break
+      default:
+        url = 'https://aronanda.github.io/news'
+        break
+    }
+    return url
   }
 
   const main = $('#main').children('article').each((ii, child) => {
@@ -70,22 +103,19 @@ async function getBitchute(slug) {
 
 async function exec() {
   if (cmd === 'chute') {
-    let [slug, toOpen] = args
+    let [slug] = args
     if (!slug)
       throw new Error('missing Bitchute slug')
     return getBitchute(slug).then(url => {
       log(url)
       pbcopy(url)
-      if (toOpen)
-        open(url)
+      open(url)
     })
   } else {
-    let [toOpen] = args
     return getFoxNews(cmd).then(url => {
       log(url)
       pbcopy(url)
-      if (toOpen)
-        open(url)
+      open(url)
     })
   }
 }
