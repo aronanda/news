@@ -1,0 +1,17 @@
+{
+  "name": "news",
+  "version": "1.0.0",
+  "bin": {
+    "news": "news-cli.js"
+  },
+  "main": "news-cli.js",
+  "scripts": {
+    "dev": "nodemon ."
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "miniget": "^2.0.1",
+    "open": "^7.3.0"
+  },
+  "private": true
+}
