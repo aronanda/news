@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-global.cosmic = global /* Research Flat Earth */
-
 const miniget = require('miniget')
 const cheerio = require('cheerio')
 const open = require('open')
