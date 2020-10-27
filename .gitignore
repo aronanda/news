@@ -36,9 +36,3 @@ node_modules
 ehthumbs.db
 Thumbs.db
 
-### Config ###
-.env
-
-### Project ###
-/.misc/*
-!/.misc/.gitkeep

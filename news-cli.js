@@ -5,7 +5,7 @@ const cheerio = require('cheerio')
 const open = require('open')
 const log = console.log.bind(console)
 
-const [ cmd, ...args ] = process.argv.slice(2)
+const [ cmd, slug ] = process.argv.slice(2)
 
 const foxNewsUrl = 'https://topnewsshow.com/category/fox-news'
 
@@ -15,7 +15,19 @@ function pbcopy(data) {
   proc.stdin.end()
 }
 
-async function getFoxNews(slug) {
+async function getUrl(cmd, slug) {
+  if (cmd === 'chute') {
+    if (!slug)
+      return 'https://www.bitchute.com'
+    const url = `https://www.bitchute.com/video/${slug}/`
+    const body = await miniget(url).text()
+    let $ = cheerio.load(body)
+    let videoUrl = $('.video-container video source').attr('src')
+
+    return videoUrl
+  } else {
+    slug = cmd
+  }
   const body = await miniget(foxNewsUrl).text()
   let $ = cheerio.load(body)
   let video
@@ -35,6 +47,21 @@ async function getFoxNews(slug) {
       break
     case 'tucker':
       category = 'tucker-carlson-tonight'
+      break
+    case 'watters':
+      category = 'watters-world'
+      break
+    case 'judge':
+      category = 'justice-with-judge-jeanine'
+      break
+    case 'greg':
+      category = 'the-greg-gutfeld-show'
+      break
+    case 'levin':
+      category = 'life-liberty-levin'
+      break
+    case 'hilton':
+      category = 'the-next-revolution-with-steve-hilton'
       break
   }
 
@@ -65,6 +92,9 @@ async function getFoxNews(slug) {
       case 'bcp':
         url = 'https://www.youtube.com/c/BlackConservativePatriot/videos'
         break
+      case 'war':
+        url = 'https://www.youtube.com/channel/UCWVvSbEw0imVIT8hiDcNgcQ/videos'
+        break
       default:
         url = 'https://aronanda.github.io/news'
         break
@@ -78,8 +108,8 @@ async function getFoxNews(slug) {
       video = child
     }
   })
-  let vidUrl = $(video).children().first().children().first().attr('href')
-  let vidBody = await miniget(vidUrl).text()
+  let url = $(video).children().first().children().first().attr('href')
+  let vidBody = await miniget(url).text()
   $ = cheerio.load(vidBody)
   const iframe = $('iframe')
   let embedUrl = iframe.attr('src')
@@ -89,35 +119,12 @@ async function getFoxNews(slug) {
   return embedUrl
 }
 
-async function getBitchute(slug) {
-  // slug = 'YGRRMH0fzcjv'
-  if (!slug)
-    return
-  const url = `https://www.bitchute.com/video/${slug}/`
-  const body = await miniget(url).text()
-  let $ = cheerio.load(body)
-  let videoUrl = $('.video-container video source').attr('src')
-
-  return videoUrl
-}
-
 async function exec() {
-  if (cmd === 'chute') {
-    let [slug] = args
-    if (!slug)
-      throw new Error('missing Bitchute slug')
-    return getBitchute(slug).then(url => {
-      log(url)
-      pbcopy(url)
-      open(url)
-    })
-  } else {
-    return getFoxNews(cmd).then(url => {
-      log(url)
-      pbcopy(url)
-      open(url)
-    })
-  }
+  return getUrl(cmd, slug).then(url => {
+    log(url)
+    pbcopy(url)
+    open(url)
+  })
 }
 
 log('');exec().then(() => log('')).catch(err => log(err))

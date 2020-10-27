@@ -14,6 +14,12 @@
     .home-btn:before, .home-btn:hover:before {
       background: none !important;
     }
+    .clickable {
+      cursor: pointer;
+    }
+    tr.clickable:hover {
+      background: #3c3c3c !important;
+    }
   </style>
 </head>
 <body>
@@ -56,6 +62,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="chans.js"></script>
   <script>
     new Vue({
       el: '#app',
@@ -65,118 +72,83 @@
         routes: [
           { path: '/', component: {
             template: `
-              <v-list>
-                <v-list-item v-for="item in items" :key="item.id"
-                  ripple
-                  @click="onClick(item)"
-                  >
-                  <v-list-item-title>{{item.name}}</v-list-item-title>
-                  <v-container fluid class="pa-0">
-                    <v-btn 
-                      v-if="item.site" 
-                      target="_blank" 
-                      color="blue"
-                      class="mr-2"
-                      tile
-                      :href="getLink('site', item.site)"
-                      :icon="$vuetify.breakpoint.smAndDown"
-                      >
-                      <v-icon :left="!$vuetify.breakpoint.smAndDown">mdi-web</v-icon>
-                      <span v-if="!$vuetify.breakpoint.smAndDown">Website</span>
-                    </v-btn>
-                    <v-btn 
-                      v-if="item.chute" 
-                      target="_blank" 
-                      color="amber darken-2"
-                      class="mr-2"
-                      tile
-                      :href="getLink('chute', item.chute)"
-                      :icon="$vuetify.breakpoint.smAndDown"
-                      >
-                      <v-icon :left="!$vuetify.breakpoint.smAndDown">mdi-video</v-icon>
-                      <span v-if="!$vuetify.breakpoint.smAndDown">Bitchute</span>
-                    </v-btn>
-                    <v-btn 
-                      v-if="item.gab" 
-                      target="_blank" 
-                      color="green"
-                      class="mr-2"
-                      tile
-                      :href="getLink('gab', item.gab)"
-                      :icon="$vuetify.breakpoint.smAndDown"
-                      >
-                      <v-icon :left="!$vuetify.breakpoint.smAndDown">mdi-message</v-icon>
-                      <span v-if="!$vuetify.breakpoint.smAndDown">Gab</span>
-                    </v-btn>
-                    <v-btn 
-                      v-if="item.yt" 
-                      target="_blank" 
-                      color="red"
-                      class="mr-2"
-                      tile
-                      :href="getLink('yt', item.yt)"
-                      :icon="$vuetify.breakpoint.smAndDown"
-                      >
-                      <v-icon :left="!$vuetify.breakpoint.smAndDown">mdi-youtube</v-icon>
-                      <span v-if="!$vuetify.breakpoint.smAndDown">Youtube</span>
-                    </v-btn>
-                  </v-container>
-                </v-list-item>
-              </v-list>
+              <v-data-table
+                :headers="headers"
+                :items="items"
+                item-key="name"
+                class="elevation-1"
+                :item-class="() => 'clickable'"
+                @click:row="onClick"
+                disable-pagination
+                hide-default-footer
+                hide-default-header
+                :search="search"
+                sort-by="name"
+                :sort-desc.sync="sortDesc"
+                >
+                <template v-slot:top>
+                  <v-toolbar flat>
+                    <v-text-field
+                      v-model="search"
+                      clearable
+                      flat
+                      solo
+                      hide-details
+                      prepend-inner-icon="mdi-magnify"
+                      label="Search"
+                    ></v-text-field>
+                    <v-spacer></v-spacer>
+                    <v-btn-toggle v-model="sortDesc" mandatory>
+                      <v-btn depressed color="grey" :value="false">
+                        <v-icon>mdi-arrow-up</v-icon>
+                      </v-btn>
+                      <v-btn depressed color="grey" :value="true">
+                        <v-icon>mdi-arrow-down</v-icon>
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-toolbar>
+                </template>
+                <template v-slot:item.actions="{ item }">
+                  <template v-for="action in actions">
+                    <v-tooltip top v-if="item[action.slug]" :key="action.id">
+                      <span>{{item.name}} {{action.name}}</span>
+                      <template v-slot:activator="{ on }">
+                        <v-btn icon @click.stop="openLink(action.slug, item[action.slug])" v-on="on">
+                          <v-icon :color="action.color">mdi-{{action.icon}}</v-icon>
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                  </template>
+                </template>
+              </v-data-table>
             `,
             data: () => ({
-              items: [
-                { name: 'Fox News', site: 'topnewsshow.com/category/fox-news' },
-                { name: 'X22 Report', site: 'x22report.com', chute: 'n78PbEkvWx2g' },
-                { name: 'IPOT', chute: 'Xe2ztraIRXRX', gab: 'IPOT' },
-                { name: 'Dollar Vigilante', site: 'dollarvigilante.com', chute: 'DkNYbFJKDPpX' },
-                { name: 'Joe M', chute: '50tnZ2hx6duU', gab: 'StormIsUponUs' },
-                { name: 'SGT Report', site: 'sgtreport.tv' },
-                { name: 'Tim Pool', yt: 'c/Timcast/videos' },
-                { name: 'Timcast', yt: 'c/TimcastNews/videos' },
-                { name: 'Timcast IRL', yt: 'c/TimcastIRL/videos' },
-                { name: 'Black Conservative Patriot', yt: 'c/BlackConservativePatriot/videos' },
-                { name: 'InTheMatrixxx', site: 'inthematrixxx.com' },
-                { name: 'Edge of Wonder', site: 'edgeofwonder.tv' },
-                { name: 'Redpill78', chute: 'ckAsk0HlOn5w', gab: '' },
-                { name: 'Mouthy Buddha', chute: 'wnuZEpMvRZs6' },
-                { name: 'Destroying the Illusion', chute: 'XyIkC2xqtFHY' },
-                { name: 'PrayingMedic', chute: 'FJLej1ou6JVe' },
-                { name: 'Spaceshot76', yt: 'channel/UCxBRXoY4uqpHwmm7DVIePIQ' },
-                { name: 'WokeSocieties', site: 'wokesocieties.com' },
-                { name: 'Amazing Polly', site: '', chute: 'ZofFQQoDoqYT' },
-                { name: 'Truth & Art TV', site: 'truthandarttv.com' },
-                { name: 'PatriotsSoapbox', chute: 'wnKzAtP4CGk4' },
-                { name: 'Dustin Nemos', chute: 'dustinnemos' },
-                { name: 'AndWeKnow', site: 'andweknow.com', chute: '1uDxpDogKMs9' },
-                { name: 'Stroppy Me', chute: 'M4YtazGIdcIH' },
-                { name: 'Justinformed Talk', chute: 'zWqrqKTLkhqW' },
-                { name: 'Sarah Westall', chute: '1Ez5eVnVz1yY' },
-                { name: 'InfoWars', site: 'banned.video' },
+              search: '',
+              sortDesc: false,
+              headers: [
+                { text: 'Channel', value: 'name', align: 'start', sortable: false },
+                { text: '', value: 'actions', align: 'center' },
               ],
+              items,
+              actions
             }),
             methods: {
               onClick (item) {
-                if (item.chute)
-                  window.open(this.getLink('chute', item.chute))
-                else if (item.site)
-                  window.open(this.getLink('site', item.site))
-                else if (item.gab)
-                  window.open(this.getLink('gab', item.gab))
-                else if (item.yt)
-                  window.open(this.getLink('yt', item.yt))
+                const slugs = this.actions.map(item => item.slug)
+                for (let ii = 0; ii < slugs.length; ii++) {
+                  const slug = slugs[ii]
+                  if (item[slug]) {
+                    this.openLink(slug, item[slug])
+                    break
+                  }
+                }
               },
-              getLink (type, slug) {
-                if (type === 'chute')
-                  return 'https://bitchute.com/channel/' + slug
-                if (type === 'site')
-                  return 'http://' + slug
-                if (type === 'gab')
-                  return 'https://gab.com/' + slug
-                if (type === 'yt')
-                  return 'https://www.youtube.com/' + slug
-              },
-            },
+              openLink (type, uri) {
+                const action = this.actions.find(_action => _action.slug === type)
+                if (action)
+                  window.open(`${action.pre}${uri}`)
+              }
+            }
           }},
           { path: '/obfuscate', component: {
             template: `
