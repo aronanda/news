@@ -15,6 +15,7 @@ const items = [
   { name: 'InTheMatrixxx', slug: 'matrix', site: 'inthematrixxx.com' },
   { name: 'Joe M', slug: 'storm', chute: '50tnZ2hx6duU', gab: 'StormIsUponUs' },
   { name: 'Justinformed Talk', slug: 'justinformed', chute: 'zWqrqKTLkhqW' },
+  { name: 'Millennial Millie', yt: 'c/MillennialMillie/videos' },
   { name: 'Mouthy Buddha', slug: 'buddha', chute: 'wnuZEpMvRZs6' },
   { name: 'PatriotsSoapbox', slug: 'soapbox', chute: 'wnKzAtP4CGk4' },
   { name: 'PrayingMedic', slug: 'medic', chute: 'FJLej1ou6JVe' },
@@ -26,8 +27,9 @@ const items = [
   { name: 'Tim Pool', slug: 'tim', yt: 'c/Timcast/videos' },
   { name: 'Timcast', slug: 'timcast', yt: 'c/TimcastNews/videos' },
   { name: 'Timcast IRL', slug: 'timcastirl', yt: 'c/TimcastIRL/videos' },
+  { name: 'TrueTV', slug: 'true', yt: 'c/TrueTVFactsOfTheGlobe/videos', chute: 'DBeueU8c231O' },
   { name: 'Truth & Art TV', slug: 'truthart', site: 'truthandarttv.com' },
-  { name: 'War Room', slug: 'warroom', yt: 'channel/UCWVvSbEw0imVIT8hiDcNgcQ/videos' },
+  { name: 'War Room', slug: 'warroom', site: 'pandemic.warroom.org', yt: 'channel/UCWVvSbEw0imVIT8hiDcNgcQ/videos' },
   { name: 'WokeSocieties', slug: 'woke', site: 'wokesocieties.com' },
   { name: 'X22 Report', slug: 'x22', site: 'x22report.com', chute: 'n78PbEkvWx2g' },
 ]

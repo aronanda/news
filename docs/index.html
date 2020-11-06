@@ -60,9 +60,15 @@
             <span>{{title}}</span>
           </v-btn>
         </v-toolbar-items>
+        <v-toolbar-items v-if="menu.primary.length">
+          <template v-for="item in menu.primary">
+            <v-divider vertical></v-divider>
+            <v-btn :key = item.id :to="'/' + item.path" text>{{ item.title }}</v-btn>
+          </template>
+        </v-toolbar-items>
         <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <template v-for="item in menu">
+        <v-toolbar-items v-if="menu.secondary.length">
+          <template v-for="item in menu.secondary">
             <v-divider vertical></v-divider>
             <v-btn :key = item.id :to="'/' + item.path" text>{{ item.title }}</v-btn>
           </template>
@@ -334,11 +340,18 @@
       vuetify: new Vuetify(),
       data: () => ({
         title: 'Patriot News',
-        menu: [
-          { title: 'Obfuscate', path: 'obfuscate' },
-          // { title: 'Foo', path: 'foo' },
-          // { title: 'Bar', path: 'bar' },
-        ],
+        menu: {
+          primary: [
+          ],
+          secondary: [
+            { title: 'Obfuscate', path: 'obfuscate' },
+            // { title: 'Vote', path: 'vote' },
+            // { title: 'Foo', path: 'foo' },
+            // { title: 'Bar', path: 'bar' },
+          ],
+          footer: [
+          ],
+        },
       }),
       created () {
         this.$vuetify.theme.dark = true
