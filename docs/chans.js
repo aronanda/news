@@ -22,6 +22,7 @@ const items = [
   { name: 'Redpill78', slug: 'redpill', chute: 'ckAsk0HlOn5w', gab: '' },
   { name: 'Sarah Westall', slug: 'westall', chute: '1Ez5eVnVz1yY' },
   { name: 'SGT Report', slug: 'sgt', site: 'sgtreport.tv' },
+  { name: 'Simon Parkes', slug: 'parkes', yt: 'c/SimonParkes/videos' },
   { name: 'Spaceshot76', slug: 'spaceshot', yt: 'channel/UCxBRXoY4uqpHwmm7DVIePIQ' },
   { name: 'Stroppy Me', slug: 'stroppy', chute: 'M4YtazGIdcIH' },
   { name: 'Tim Pool', slug: 'tim', yt: 'c/Timcast/videos' },
@@ -29,9 +30,9 @@ const items = [
   { name: 'Timcast IRL', slug: 'timcastirl', yt: 'c/TimcastIRL/videos' },
   { name: 'TrueTV', slug: 'true', yt: 'c/TrueTVFactsOfTheGlobe/videos', chute: 'DBeueU8c231O' },
   { name: 'Truth & Art TV', slug: 'truthart', site: 'truthandarttv.com' },
-  { name: 'War Room', slug: 'warroom', site: 'pandemic.warroom.org', yt: 'channel/UCWVvSbEw0imVIT8hiDcNgcQ/videos' },
+  { name: 'War Room', slug: 'warroom', site: 'listen.warroom.org', yt: 'channel/UCWVvSbEw0imVIT8hiDcNgcQ/videos' },
   { name: 'WokeSocieties', slug: 'woke', site: 'wokesocieties.com' },
-  { name: 'X22 Report', slug: 'x22', site: 'x22report.com', chute: 'n78PbEkvWx2g' },
+  { name: 'X22 Report', slug: 'x22', yt: 'channel/UCm8iRvcD_d7Xnjc5UEqCGoA/videos', site: 'x22report.com', chute: 'n78PbEkvWx2g' },
 ]
 
 const actions = [
